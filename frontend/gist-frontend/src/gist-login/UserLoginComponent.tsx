@@ -1,5 +1,22 @@
 import React from "react";
-import { Form, FormField, Button, CheckBox, Box } from "grommet";
+import { Form, FormField, Button, CheckBox, Box, Grommet } from "grommet";
+
+const theme = {
+  checkBox: {
+    hover: {
+      border: {
+        color: "#08B3E5"
+      }
+    }
+  },
+  button: {
+    hover: {
+      border: {
+        color: "#08B3E5"
+      }
+    }
+  }
+};
 
 export default class UserLoginComponent extends React.Component {
   render() {
@@ -23,7 +40,9 @@ export default class UserLoginComponent extends React.Component {
             <Button type="submit" primary label="login" />
           </Box>
           <Box style={{ padding: "10px" }}>
-            <CheckBox checked={true} label="remember me?" />
+            <Grommet theme={theme}>
+              <CheckBox checked={true} label="remember me?" />
+            </Grommet>
           </Box>
         </Form>
       </div>

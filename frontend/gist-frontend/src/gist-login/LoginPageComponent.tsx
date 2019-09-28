@@ -15,6 +15,14 @@ const theme = {
       size: "14px",
       height: "20px"
     }
+  },
+  tab: {
+    hover: {
+      color: "#08B3E5"
+    },
+    active: {
+      color: "#08B3E5"
+    }
   }
 };
 
@@ -24,7 +32,7 @@ export default class LoginPageComponent extends React.Component {
       <Grommet theme={theme} full>
         <Box fill background="brand">
           <Box
-            round={true}
+            pad="small"
             direction="row"
             flex
             overflow={{ horizontal: "hidden" }}
@@ -41,10 +49,11 @@ export default class LoginPageComponent extends React.Component {
               }}
               round={true}
               width="large"
-              background="light-3"
+              background="url(https://www.jpl.nasa.gov/images/spitzer/20181023/pia22566-16.jpg)"
               elevation="xlarge"
               align="center"
               justify="center"
+              overflow={{ vertical: "auto" }}
             >
               <Heading>gist</Heading>
               <Tabs>
