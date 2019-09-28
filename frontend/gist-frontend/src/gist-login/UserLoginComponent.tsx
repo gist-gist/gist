@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, FormField, Button, CheckBox } from "grommet";
+import { Form, FormField, Button, CheckBox, Box } from "grommet";
 
 export default class UserLoginComponent extends React.Component {
   render() {
@@ -19,10 +19,12 @@ export default class UserLoginComponent extends React.Component {
             name="password"
             label="password"
           />
-          <Button type="submit" primary label="login" />
-          <div style={{ padding: "10px" }}>
+          <Box>
+            <Button type="submit" primary label="login" />
+          </Box>
+          <Box style={{ padding: "10px" }}>
             <CheckBox checked={true} label="remember me?" />
-          </div>
+          </Box>
         </Form>
       </div>
     );

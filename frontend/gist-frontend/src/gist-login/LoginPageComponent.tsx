@@ -8,7 +8,7 @@ import { Box, Grommet, Tab, Tabs, Heading } from "grommet";
 const theme = {
   global: {
     colors: {
-      brand: "#228BE6"
+      brand: "#2AF598"
     },
     font: {
       family: "Roboto",
@@ -24,12 +24,7 @@ export default class LoginPageComponent extends React.Component {
       <Grommet theme={theme} full>
         <Box fill background="brand">
           <Box
-            border={{
-              color: "border",
-              size: "large",
-              style: "ridge",
-              side: "all"
-            }}
+            round={true}
             direction="row"
             flex
             overflow={{ horizontal: "hidden" }}
@@ -38,31 +33,28 @@ export default class LoginPageComponent extends React.Component {
               <AboutGistComponent />
             </Box>
             <Box
+              border={{
+                color: "#1BD7BB",
+                size: "large",
+                style: "ridge",
+                side: "all"
+              }}
+              round={true}
               width="large"
-              background="light-2"
-              elevation="large"
+              background="light-3"
+              elevation="xlarge"
               align="center"
               justify="center"
             >
               <Heading>gist</Heading>
               <Tabs>
                 <Tab title="sign in">
-                  <Box
-                    width="large"
-                    elevation="large"
-                    align="center"
-                    justify="center"
-                  >
+                  <Box>
                     <UserLoginComponent />
                   </Box>
                 </Tab>
                 <Tab title="sign up">
-                  <Box
-                    width="large"
-                    elevation="large"
-                    align="center"
-                    justify="center"
-                  >
+                  <Box>
                     <CreateUserComponent />
                   </Box>
                 </Tab>
