@@ -50,6 +50,7 @@ export default class LoginPageComponent extends React.Component {
               round={true}
               width="large"
               background="url(https://www.jpl.nasa.gov/images/spitzer/20181023/pia22566-16.jpg)"
+              //background="light-3" // change the background to this to see how it actually looks like
               elevation="xlarge"
               align="center"
               justify="center"
