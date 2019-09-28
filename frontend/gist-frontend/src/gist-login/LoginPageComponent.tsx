@@ -1,9 +1,9 @@
 import React from "react";
 import UserLoginComponent from "./UserLoginComponent";
-//import CreateUserComponent from "./CreateUserComponent";
+import CreateUserComponent from "./CreateUserComponent";
 import AboutGistComponent from "./AboutGistComponent";
 
-import { Box, Grommet } from "grommet";
+import { Box, Grommet, Tab, Tabs, Heading } from "grommet";
 
 const theme = {
   global: {
@@ -44,7 +44,29 @@ export default class LoginPageComponent extends React.Component {
               align="center"
               justify="center"
             >
-              <UserLoginComponent />
+              <Heading>gist</Heading>
+              <Tabs>
+                <Tab title="sign in">
+                  <Box
+                    width="large"
+                    elevation="large"
+                    align="center"
+                    justify="center"
+                  >
+                    <UserLoginComponent />
+                  </Box>
+                </Tab>
+                <Tab title="sign up">
+                  <Box
+                    width="large"
+                    elevation="large"
+                    align="center"
+                    justify="center"
+                  >
+                    <CreateUserComponent />
+                  </Box>
+                </Tab>
+              </Tabs>
             </Box>
           </Box>
         </Box>
