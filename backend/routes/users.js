@@ -48,6 +48,15 @@ router.route("/:id").delete((req, res) => {
     .catch(err => res.status(400).json("error: " + err));
 });
 
+router.route("/getUser").post(async (req, res) => {
+  const username = req.body.username;
+  let user = await User.findOne({ username: username });
+  if (!user) {
+    return res.status(400).send({ message: "the user does not exist" });
+  }
+  return res.json(user);
+});
+
 /**
  * checks user credentials to log in
  */
@@ -59,13 +68,13 @@ router.route("/login").post(async (req, res) => {
 
   let user = await User.findOne({ username: username });
   if (!user) {
-    return res.status(400).send({ message: "The username does not exist" });
+    return res.status(400).send({ message: "the username does not exist" });
   }
 
   if (!bcrypt.compareSync(password_plaintext, user.password)) {
-    return res.status(400).send({ message: "The password is invalid" });
+    return res.status(400).send({ message: "the password is invalid" });
   }
-  res.send({ message: "The username and password is correct" });
+  res.send({ message: "the username and password is correct" });
 });
 
 module.exports = router;
