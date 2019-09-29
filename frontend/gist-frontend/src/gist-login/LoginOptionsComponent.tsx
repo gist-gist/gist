@@ -2,7 +2,7 @@ import React from "react";
 import UserLoginComponent from "./UserLoginComponent";
 import CreateUserComponent from "./CreateUserComponent";
 
-import { Box, Tab, Tabs, Heading } from "grommet";
+import { Box, Tab, Tabs, Heading, Button } from "grommet";
 
 interface ILoginOptionsComponentProps {}
 
@@ -16,6 +16,10 @@ export default class LoginOptionsComponent extends React.Component<
 > {
   state = {
     isLoginTabActive: true
+  };
+
+  onSkipLoginButtonClicked = () => {
+    console.log("skipped the login page");
   };
 
   onTabChange = () => {
@@ -63,6 +67,9 @@ export default class LoginOptionsComponent extends React.Component<
             </Box>
           </Tab>
         </Tabs>
+        <Box>
+          <Button label="skip login" onClick={this.onSkipLoginButtonClicked} />
+        </Box>
       </Box>
     );
   }

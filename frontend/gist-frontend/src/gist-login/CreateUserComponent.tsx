@@ -2,20 +2,7 @@ import React from "react";
 import { Form, FormField, Button, Box } from "grommet";
 import { User } from "grommet-icons";
 
-interface ICreateUserComponentProps {}
-
-interface ICreateUserComponentState {
-  isFormComplete: boolean;
-}
-
-export default class CreateUserComponent extends React.Component<
-  ICreateUserComponentProps,
-  ICreateUserComponentState
-> {
-  state = {
-    isFormComplete: false
-  };
-
+export default class CreateUserComponent extends React.Component {
   onImageClick = () => {
     console.log("image button clicked");
   };
@@ -67,12 +54,7 @@ export default class CreateUserComponent extends React.Component<
             </Box>
           </FormField>
           <Box pad={{ bottom: "small" }}>
-            <Button
-              disabled={!this.state.isFormComplete}
-              type="submit"
-              primary
-              label="create"
-            />
+            <Button type="submit" primary label="create" />
           </Box>
         </Form>
       </div>
