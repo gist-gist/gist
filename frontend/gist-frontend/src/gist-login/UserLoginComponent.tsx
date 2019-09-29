@@ -71,6 +71,10 @@ export default class UserLoginComponent extends React.Component<
     }
   };
 
+  onSkipLoginButtonClicked = () => {
+    console.log("skipped the login page");
+  };
+
   render() {
     return (
       <div>
@@ -106,6 +110,9 @@ export default class UserLoginComponent extends React.Component<
             />
           </Box>
         </Form>
+        <Box round={true} elevation="medium">
+          <Button label="skip login" onClick={this.onSkipLoginButtonClicked} />
+        </Box>
       </div>
     );
   }
