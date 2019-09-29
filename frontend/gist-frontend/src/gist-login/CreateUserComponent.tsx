@@ -1,12 +1,35 @@
 import React from "react";
+import { Form, FormField, Button, Box } from "grommet";
+import { User } from "grommet-icons";
 
-import { Form, FormField, Button } from "grommet";
+interface ICreateUserComponentProps {}
 
-export default class CreateUserComponent extends React.Component {
+interface ICreateUserComponentState {
+  isFormComplete: boolean;
+}
+
+export default class CreateUserComponent extends React.Component<
+  ICreateUserComponentProps,
+  ICreateUserComponentState
+> {
+  state = {
+    isFormComplete: false
+  };
+
+  onImageClick = () => {
+    console.log("image button clicked");
+  };
+
   render() {
     return (
       <div>
         <Form>
+          <FormField
+            required={true}
+            placeholder="butla leavenworth"
+            name="fullName"
+            label="full name"
+          />
           <FormField
             required={true}
             placeholder="username"
@@ -27,15 +50,30 @@ export default class CreateUserComponent extends React.Component {
             name="secondPassword"
             label="enter password again"
           />
-
           <FormField
             required={true}
-            placeholder="joshtilman@strangeencounters.com"
+            placeholder="youremail@email.com"
             name="email"
             label="email"
           />
-
-          <Button type="submit" primary label="create" />
+          <FormField
+            required={false}
+            name="profilePicture"
+            label="profile picture"
+          >
+            <Box align="center" pad={{ bottom: "small" }} round="full">
+              <User size="large" />
+              <Button onClick={this.onImageClick} label="select image" />
+            </Box>
+          </FormField>
+          <Box pad={{ bottom: "small" }}>
+            <Button
+              disabled={!this.state.isFormComplete}
+              type="submit"
+              primary
+              label="create"
+            />
+          </Box>
         </Form>
       </div>
     );
