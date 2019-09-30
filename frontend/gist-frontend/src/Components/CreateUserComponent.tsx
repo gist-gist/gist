@@ -6,7 +6,7 @@ interface ICreateUserComponentProps {}
 
 interface ICreateUserComponentState {
   showPictureModal: boolean;
-  image: JSX.Element;
+  image: string;
 }
 
 export default class CreateUserComponent extends React.Component<
@@ -15,7 +15,7 @@ export default class CreateUserComponent extends React.Component<
 > {
   state = {
     showPictureModal: false,
-    image: <User />
+    image: "User"
   };
   onImageButtonClick = () => {
     console.log("image button clicked");
@@ -26,6 +26,12 @@ export default class CreateUserComponent extends React.Component<
   };
 
   getPhotoSelectorLayer = () => {
+    let defaultIconChoice: JSX.Element = <User />;
+    if (this.state.image === "UserFemale") {
+      defaultIconChoice = <UserFemale />;
+    } else if (this.state.image === "UserManager") {
+      defaultIconChoice = <UserManager />;
+    }
     return this.state.showPictureModal ? (
       <Layer
         position="top"
@@ -55,9 +61,10 @@ export default class CreateUserComponent extends React.Component<
           </Heading>
           <Box pad={{ right: "small", left: "small", bottom: "small" }}>
             <Select
-              icon={<User />}
+              icon={defaultIconChoice}
               options={["User", "UserFemale", "UserManager"]}
-              value={"User"}
+              value={this.state.image}
+              onChange={({ option }) => this.setState({ image: option })}
             />
           </Box>
         </Box>
@@ -69,6 +76,13 @@ export default class CreateUserComponent extends React.Component<
 
   render() {
     const photoSelectorLayer = this.getPhotoSelectorLayer();
+    const { image } = this.state;
+    let iconChoice: JSX.Element = <User color="neutral-3" size="large" />;
+    if (image === "UserFemale") {
+      iconChoice = <UserFemale color="neutral-3" size="large" />;
+    } else if (image === "UserManager") {
+      iconChoice = <UserManager color="neutral-3" size="large" />;
+    }
     return (
       <div>
         <Form>
@@ -110,7 +124,7 @@ export default class CreateUserComponent extends React.Component<
             label="profile picture"
           >
             <Box align="center" pad={{ bottom: "small" }} round="full">
-              <User color="neutral-3" size="large" />
+              {iconChoice}
               <Button
                 onClick={this.onImageButtonClick}
                 label="select image (default selected)"
