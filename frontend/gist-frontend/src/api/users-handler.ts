@@ -14,12 +14,20 @@ export class UsersHandler {
   async getAllUsers(): Promise<User[]> {
     let users: User[] = [];
     let data = await APIHandler(`users/`, "GET");
-    if (data !== undefined) {
+    if (!!data) {
       let dataArray = JSON.parse(JSON.stringify(data));
       for (let i = 0; i < dataArray.length; i++) {
         users.push(new User(dataArray[i]));
       }
     }
     return users;
+  }
+  async deleteUser(id: string): Promise<String> {
+    let data = await APIHandler(`users/`, "DELETE", undefined, id);
+    if (!!data) {
+      return data;
+    } else {
+      return "error";
+    }
   }
 }

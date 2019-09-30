@@ -3,7 +3,8 @@ import { local_url } from "./urls";
 export async function APIHandler(
   extension: string,
   method: string,
-  body?: object
+  body?: object,
+  info?: string
 ) {
   let response = "";
   if (method === "GET") {
@@ -26,6 +27,19 @@ export async function APIHandler(
       body: data
     })
       .then(data => {
+        return data.json();
+      })
+      .then(json => {
+        response = json;
+      })
+      .catch(console.log);
+    return response;
+  } else if (method === "DELETE") {
+    await fetch(`${local_url}/${extension}${info}`, {
+      method: "DELETE"
+    })
+      .then(data => {
+        console.log(data);
         return data.json();
       })
       .then(json => {
