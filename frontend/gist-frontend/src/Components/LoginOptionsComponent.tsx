@@ -24,16 +24,9 @@ export default class LoginOptionsComponent extends React.Component<
     });
   };
 
-  getLoginTitle = () => {
-    if (this.state.isLoginTabActive) {
-      return "login";
-    } else {
-      return "create";
-    }
-  };
-
   render() {
-    let loginTitle: String = this.getLoginTitle();
+    const { isLoginTabActive } = this.state;
+    const loginTitle: String = isLoginTabActive ? "login" : "create";
     return (
       <Box
         border={{

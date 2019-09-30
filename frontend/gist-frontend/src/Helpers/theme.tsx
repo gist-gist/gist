@@ -14,13 +14,13 @@ export const theme = {
       active: {
         color: {
           dark: "brand",
-          light: "neutral-3"
+          light: "brand"
         }
       },
       hover: {
         color: {
           dark: "brand",
-          light: "neutral-3"
+          light: "brand"
         }
       }
     },

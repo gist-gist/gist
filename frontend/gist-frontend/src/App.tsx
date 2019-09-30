@@ -1,6 +1,6 @@
 import React from "react";
-import { theme } from "./theme";
-import LoginPageComponent from "./gist-login/LoginPageComponent";
+import { theme } from "./Helpers/theme";
+import LoginPageComponent from "./Components/LoginPageComponent";
 
 const App: React.FC = () => {
   return <LoginPageComponent theme={theme} />;

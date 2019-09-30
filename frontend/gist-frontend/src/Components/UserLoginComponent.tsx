@@ -1,8 +1,9 @@
 import React from "react";
 import { Form, FormField, Button, CheckBox, Box } from "grommet";
+import { FormNext } from "grommet-icons";
 
 interface IUserLoginComponentState {
-  checked: boolean;
+  isCheckBoxChecked: boolean;
   isFormComplete: boolean;
   hasUsername: boolean;
   hasPassword: boolean;
@@ -15,7 +16,7 @@ export default class UserLoginComponent extends React.Component<
   IUserLoginComponentState
 > {
   state = {
-    checked: false,
+    isCheckBoxChecked: false,
     isFormComplete: false,
     hasUsername: false,
     hasPassword: false
@@ -23,7 +24,7 @@ export default class UserLoginComponent extends React.Component<
 
   checkBoxOnClick = () => {
     this.setState({
-      checked: !this.state.checked
+      isCheckBoxChecked: !this.state.isCheckBoxChecked
     });
   };
 
@@ -104,14 +105,21 @@ export default class UserLoginComponent extends React.Component<
           </Box>
           <Box style={{ padding: "10px" }}>
             <CheckBox
+              disabled={!this.state.isFormComplete}
               onChange={this.checkBoxOnClick}
-              checked={this.state.checked}
+              checked={this.state.isCheckBoxChecked}
               label="remember me?"
             />
           </Box>
         </Form>
         <Box round={true} elevation="medium">
-          <Button label="skip login" onClick={this.onSkipLoginButtonClicked} />
+          <Button
+            icon={<FormNext />}
+            reverse={true}
+            gap="none"
+            label="skip login"
+            onClick={this.onSkipLoginButtonClicked}
+          />
         </Box>
       </div>
     );
