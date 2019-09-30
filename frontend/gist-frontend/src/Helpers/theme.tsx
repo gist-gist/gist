@@ -22,6 +22,10 @@ export const theme = {
           dark: "brand",
           light: "brand"
         }
+      },
+      color: {
+        dark: "neutral-3",
+        light: "neutral-3"
       }
     },
     color: "neutral-3",
