@@ -26,12 +26,6 @@ const userSchema = new Schema({
     required: true,
     unique: true,
     trim: true
-  },
-  profilePicture: {
-    type: Buffer,
-    required: true,
-    unique: false,
-    trim: false
   }
 });
 
