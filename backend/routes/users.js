@@ -42,8 +42,8 @@ router.route("/").post((req, res) => {
 /**
  * deletes user from db
  */
-router.route("/:id").delete((req, res) => {
-  User.findByIdAndDelete(req.params.id)
+router.route("/:username").delete((req, res) => {
+  User.findOneAndDelete({ username: req.params.username })
     .then(() => res.json("User deleted"))
     .catch(err => res.status(400).json("error: " + err));
 });
@@ -52,8 +52,7 @@ router.route("/:id").delete((req, res) => {
  * returns user
  */
 router.route("/:username").get(async (req, res) => {
-  const username = req.params.username;
-  let user = await User.findOne({ username: username });
+  let user = await User.findOne({ username: req.params.username });
   if (!user) {
     return res.status(400).send({ message: "the user does not exist" });
   }
