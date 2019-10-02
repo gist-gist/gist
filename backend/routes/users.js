@@ -48,8 +48,11 @@ router.route("/:id").delete((req, res) => {
     .catch(err => res.status(400).json("error: " + err));
 });
 
-router.route("/getUser").post(async (req, res) => {
-  const username = req.body.username;
+/**
+ * returns user
+ */
+router.route("/:username").get(async (req, res) => {
+  const username = req.params.username;
   let user = await User.findOne({ username: username });
   if (!user) {
     return res.status(400).send({ message: "the user does not exist" });
