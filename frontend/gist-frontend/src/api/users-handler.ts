@@ -29,7 +29,7 @@ export class UsersHandler {
     return data;
   }
   async deleteUser(username: string): Promise<String> {
-    let data = await APIHandler(`users/`, "DELETE", undefined, username);
+    let data = await APIHandler(`users/${username}`, "DELETE");
     if (!!data) {
       return data;
     } else {

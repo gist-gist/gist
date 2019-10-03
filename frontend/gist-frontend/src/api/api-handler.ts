@@ -7,24 +7,17 @@ export async function APIHandler(
   info?: string
 ) {
   let response = "";
-  if (method === "GET") {
-    await fetch(`${local_url}/${extension}`)
-      .then(data => {
-        return data.json();
-      })
-      .then(json => {
-        response = json;
-      })
-      .catch(console.log);
-    return response;
-  } else if (method === "POST") {
-    let data = JSON.stringify(body);
+  let data = "";
+  if (!!body) {
+    data = JSON.stringify(body);
+  }
+  if (method === "POST") {
     await fetch(`${local_url}/${extension}`, {
-      method: "POST",
+      method: method,
+      body: data,
       headers: {
         "Content-Type": "application/json"
-      },
-      body: data
+      }
     })
       .then(data => {
         return data.json();
@@ -33,19 +26,22 @@ export async function APIHandler(
         response = json;
       })
       .catch(console.log);
+
+    console.log(response);
     return response;
-  } else if (method === "DELETE") {
-    await fetch(`${local_url}/${extension}${info}`, {
-      method: "DELETE"
+  } else {
+    await fetch(`${local_url}/${extension}`, {
+      method: method
     })
       .then(data => {
-        console.log(data);
         return data.json();
       })
       .then(json => {
         response = json;
       })
       .catch(console.log);
+
+    console.log(response);
     return response;
   }
 }
