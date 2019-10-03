@@ -1,15 +1,10 @@
-import { User, Username } from "./api-types";
+import { User } from "./api-types";
 import { APIHandler } from "./api-handler";
 
 export class UsersHandler {
   async getUser(username: string): Promise<User> {
-    let data = await APIHandler(
-      `users/getUser`,
-      "POST",
-      new Username(username)
-    );
-    let user = new User(data);
-    return user;
+    let data = await APIHandler(`users/getUser/${username}`, "GET");
+    return new User(data);
   }
   async getAllUsers(): Promise<User[]> {
     let users: User[] = [];
@@ -22,8 +17,19 @@ export class UsersHandler {
     }
     return users;
   }
-  async deleteUser(id: string): Promise<String> {
-    let data = await APIHandler(`users/`, "DELETE", undefined, id);
+  async createUser(user: User): Promise<User> {
+    let data = await APIHandler(`users/`, "POST", user);
+    return new User(data);
+  }
+  async login(username: string, password: string) {
+    let data = await APIHandler(`users/login`, "POST", {
+      username: username,
+      password: password
+    });
+    return data;
+  }
+  async deleteUser(username: string): Promise<String> {
+    let data = await APIHandler(`users/`, "DELETE", undefined, username);
     if (!!data) {
       return data;
     } else {
