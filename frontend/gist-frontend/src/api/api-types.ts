@@ -10,10 +10,3 @@ export class User {
   fullName: string;
   email: string;
 }
-
-export class Username {
-  constructor(data: any) {
-    this.username = data;
-  }
-  username: string;
-}
