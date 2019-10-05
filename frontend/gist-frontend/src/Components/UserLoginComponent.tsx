@@ -78,7 +78,7 @@ export default class UserLoginComponent extends React.Component<
 
   render() {
     return (
-      <div>
+      <>
         <Form>
           <FormField
             onChange={this.onUsernameChange}
@@ -121,7 +121,7 @@ export default class UserLoginComponent extends React.Component<
             onClick={this.onSkipLoginButtonClicked}
           />
         </Box>
-      </div>
+      </>
     );
   }
 }
