@@ -1,8 +1,9 @@
 import React from "react";
-import LoginPageComponent from "./gist-login/LoginPageComponent";
+import { theme } from "./Helpers/theme";
+import LoginPageComponent from "./Components/LoginPageComponent";
 
 const App: React.FC = () => {
-  return <LoginPageComponent />;
+  return <LoginPageComponent theme={theme} />;
 };
 
 export default App;
