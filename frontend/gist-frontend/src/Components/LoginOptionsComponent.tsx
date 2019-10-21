@@ -37,7 +37,7 @@ export default class LoginOptionsComponent extends React.Component<
         }}
         round={true}
         width="large"
-        background="linear-gradient(160deg,#a8f4d3,#7de3e1,#6cceea,#7cb5e6,#94a7e1,#aba5e5,#c5a1e4,#de9ddd)"
+        background="light-3"
         elevation="xlarge"
         align="center"
         justify="center"
