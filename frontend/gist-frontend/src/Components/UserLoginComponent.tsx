@@ -1,6 +1,7 @@
 import React from "react";
 import { Form, FormField, Button, CheckBox, Box } from "grommet";
 import { FormNext } from "grommet-icons";
+import * as Yup from "yup";
 
 interface IUserLoginComponentState {
   isCheckBoxChecked: boolean;
@@ -10,6 +11,11 @@ interface IUserLoginComponentState {
 }
 
 interface IUserLoginComponentProps {}
+
+const UserLoginSchema = Yup.object().shape({
+  username: Yup.string().required("required"),
+  password: Yup.string().required("required")
+});
 
 export default class UserLoginComponent extends React.Component<
   IUserLoginComponentProps,

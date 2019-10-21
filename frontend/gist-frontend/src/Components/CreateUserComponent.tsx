@@ -1,6 +1,7 @@
 import React from "react";
 import { Form, FormField, Button, Box, Layer, Heading, Select } from "grommet";
 import { User, UserFemale, UserManager } from "grommet-icons";
+import * as Yup from "yup";
 
 interface ICreateUserComponentProps {}
 
@@ -8,6 +9,30 @@ interface ICreateUserComponentState {
   showPictureModal: boolean;
   imageName: string;
 }
+
+const CreateUserSchema = Yup.object().shape({
+  fullName: Yup.string().required("required"),
+  username: Yup.string() // restrictions on username?
+    .required("required")
+    .min(8, "too short!")
+    .max(25, "too long!"),
+  password: Yup.string()
+    .required("required")
+    .matches(
+      /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/,
+      "password must have at least one lowercase, one uppercase, one numeric, one special character, and be at least 8 characters in length"
+    ),
+  password2: Yup.string()
+    .required("required")
+    .matches(
+      /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/,
+      "password must have at least one lowercase, one uppercase, one numeric, one special character, and be at least 8 characters in length"
+    ),
+  email: Yup.string()
+    .required("required")
+    .email("invalid email"),
+  profilePicture: Yup.array()
+});
 
 export default class CreateUserComponent extends React.Component<
   ICreateUserComponentProps,
