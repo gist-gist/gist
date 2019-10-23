@@ -2,49 +2,39 @@ import React from "react";
 import { Form, FormField, Button, Box, Layer, Heading, Select } from "grommet";
 import { User, UserFemale, UserManager } from "grommet-icons";
 import * as Yup from "yup";
-
-interface ICreateUserComponentProps {}
-
-interface ICreateUserComponentState {
-  showPictureModal: boolean;
-  imageName: string;
-}
+import { withFormik } from "formik";
 
 const CreateUserSchema = Yup.object().shape({
-  fullName: Yup.string().required("required"),
+  fullName: Yup.string().required("full name is required"),
   username: Yup.string() // restrictions on username?
-    .required("required")
-    .min(8, "too short!")
-    .max(25, "too long!"),
+    .required("username is required")
+    .min(8, "username is too short!")
+    .max(25, "username is too long!"),
   password: Yup.string()
-    .required("required")
+    .required("password is required")
     .matches(
       /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/,
       "password must have at least one lowercase, one uppercase, one numeric, one special character, and be at least 8 characters in length"
     ),
   password2: Yup.string()
-    .required("required")
+    .required("verifying your password is required")
     .matches(
       /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/,
       "password must have at least one lowercase, one uppercase, one numeric, one special character, and be at least 8 characters in length"
     ),
   email: Yup.string()
-    .required("required")
+    .required("email is required")
     .email("invalid email"),
   profilePicture: Yup.array()
 });
 
-export default class CreateUserComponent extends React.Component<
-  ICreateUserComponentProps,
-  ICreateUserComponentState
-> {
+class CreateUserComponent extends React.Component {
   state = {
     showPictureModal: false,
     imageName: "User"
   };
-  onSelectImageClick = () => {
-    console.log("select image button clicked");
 
+  onSelectImageClick = () => {
     this.setState({
       showPictureModal: !this.state.showPictureModal
     });
@@ -110,45 +100,59 @@ export default class CreateUserComponent extends React.Component<
   render() {
     const photoSelectorLayer = this.getPhotoSelectorLayer();
     let iconChoice: JSX.Element = this.getIcon("neutral-3", "large");
+    const {
+      values,
+      touched,
+      errors,
+      handleChange,
+      handleBlur,
+      handleSubmit
+    } = this.props;
     return (
       <>
-        <Form>
+        <Form onSubmit={handleSubmit}>
           <FormField
-            required={true}
             placeholder="butla leavenworth"
             name="fullName"
             label="full name"
+            onChange={handleChange}
+            value={values.fullName}
           />
           <FormField
-            required={true}
             placeholder="username"
             name="username"
             label="username"
+            onChange={handleChange}
+            value={values.username}
           />
           <FormField
-            required={true}
             type="password"
-            placeholder="password123"
+            placeholder="password"
             name="password"
             label="password"
+            onChange={handleChange}
+            value={values.password}
           />
           <FormField
-            required={true}
             type="password"
-            placeholder="password123...again"
+            placeholder="password...again"
             name="secondPassword"
             label="enter password again"
+            onChange={handleChange}
+            value={values.secondPassword}
           />
           <FormField
-            required={true}
             placeholder="youremail@email.com"
             name="email"
             label="email"
+            onChange={handleChange}
+            value={values.email}
           />
           <FormField
-            required={false}
             name="profilePicture"
             label="profile picture"
+            onChange={handleChange}
+            value={values.profilePicture}
           >
             <Box align="center" pad={{ bottom: "small" }} round="full">
               <Box pad={{ bottom: "xxsmall" }}>{iconChoice}</Box>
@@ -167,3 +171,22 @@ export default class CreateUserComponent extends React.Component<
     );
   }
 }
+
+const EnhancedCreateUserComponent = withFormik({
+  mapPropsToValues: () => ({
+    fullName: "",
+    username: "",
+    password: "",
+    secondPassword: "",
+    email: "",
+    profilePicture: ""
+  }),
+  validationSchema: CreateUserSchema,
+  handleSubmit: (values, { setSubmitting }) => {
+    setTimeout(() => {
+      alert(JSON.stringify(values, null, 2));
+      setSubmitting(false);
+    }, 1000);
+  }
+})(CreateUserComponent);
+export default EnhancedCreateUserComponent;
