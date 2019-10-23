@@ -2,6 +2,7 @@ import React from "react";
 import { Form, FormField, Button, Box, Layer, Heading, Select } from "grommet";
 import { User, UserFemale, UserManager } from "grommet-icons";
 import * as Yup from "yup";
+import { Formik } from "formik";
 
 interface ICreateUserComponentProps {}
 
@@ -11,25 +12,25 @@ interface ICreateUserComponentState {
 }
 
 const CreateUserSchema = Yup.object().shape({
-  fullName: Yup.string().required("required"),
+  fullName: Yup.string().required("full name is required"),
   username: Yup.string() // restrictions on username?
-    .required("required")
-    .min(8, "too short!")
-    .max(25, "too long!"),
+    .required("username is required")
+    .min(8, "username is too short!")
+    .max(25, "username is too long!"),
   password: Yup.string()
-    .required("required")
+    .required("password is required")
     .matches(
       /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/,
       "password must have at least one lowercase, one uppercase, one numeric, one special character, and be at least 8 characters in length"
     ),
   password2: Yup.string()
-    .required("required")
+    .required("verifying your password is required")
     .matches(
       /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/,
       "password must have at least one lowercase, one uppercase, one numeric, one special character, and be at least 8 characters in length"
     ),
   email: Yup.string()
-    .required("required")
+    .required("email is required")
     .email("invalid email"),
   profilePicture: Yup.array()
 });
@@ -43,8 +44,6 @@ export default class CreateUserComponent extends React.Component<
     imageName: "User"
   };
   onSelectImageClick = () => {
-    console.log("select image button clicked");
-
     this.setState({
       showPictureModal: !this.state.showPictureModal
     });
@@ -112,57 +111,78 @@ export default class CreateUserComponent extends React.Component<
     let iconChoice: JSX.Element = this.getIcon("neutral-3", "large");
     return (
       <>
-        <Form>
-          <FormField
-            required={true}
-            placeholder="butla leavenworth"
-            name="fullName"
-            label="full name"
-          />
-          <FormField
-            required={true}
-            placeholder="username"
-            name="username"
-            label="username"
-          />
-          <FormField
-            required={true}
-            type="password"
-            placeholder="password123"
-            name="password"
-            label="password"
-          />
-          <FormField
-            required={true}
-            type="password"
-            placeholder="password123...again"
-            name="secondPassword"
-            label="enter password again"
-          />
-          <FormField
-            required={true}
-            placeholder="youremail@email.com"
-            name="email"
-            label="email"
-          />
-          <FormField
-            required={false}
-            name="profilePicture"
-            label="profile picture"
-          >
-            <Box align="center" pad={{ bottom: "small" }} round="full">
-              <Box pad={{ bottom: "xxsmall" }}>{iconChoice}</Box>
-              <Button
-                onClick={this.onSelectImageClick}
-                label="select image (default selected)"
+        <Formik
+          initialValues={{
+            fullName: "",
+            username: "",
+            password: "",
+            secondPassword: "",
+            email: "",
+            profilePicture: ""
+          }}
+          validationSchema={CreateUserSchema}
+          onSubmit={values => {
+            console.log(values);
+          }}
+        >
+          {({ errors, touched }) => (
+            <Form>
+              <FormField
+                placeholder="butla leavenworth"
+                name="fullName"
+                label="full name"
               />
-              {photoSelectorLayer}
-            </Box>
-          </FormField>
-          <Box pad={{ bottom: "small" }}>
-            <Button type="submit" primary label="create" />
-          </Box>
-        </Form>
+              {errors.fullName && touched.fullName ? (
+                <>{errors.fullName}</>
+              ) : null}
+              <FormField
+                placeholder="username"
+                name="username"
+                label="username"
+              />
+              {errors.username && touched.username ? (
+                <>{errors.username}</>
+              ) : null}
+              <FormField
+                type="password"
+                placeholder="password"
+                name="password"
+                label="password"
+              />
+              {errors.password && touched.password ? (
+                <>{errors.password}</>
+              ) : null}
+              <FormField
+                type="password"
+                placeholder="password...again"
+                name="secondPassword"
+                label="enter password again"
+              />
+              {errors.secondPassword && touched.secondPassword ? (
+                <>{errors.secondPassword}</>
+              ) : null}
+              <FormField
+                placeholder="youremail@email.com"
+                name="email"
+                label="email"
+              />
+              {errors.email && touched.email ? <>{errors.email}</> : null}
+              <FormField name="profilePicture" label="profile picture">
+                <Box align="center" pad={{ bottom: "small" }} round="full">
+                  <Box pad={{ bottom: "xxsmall" }}>{iconChoice}</Box>
+                  <Button
+                    onClick={this.onSelectImageClick}
+                    label="select image (default selected)"
+                  />
+                  {photoSelectorLayer}
+                </Box>
+              </FormField>
+              <Box pad={{ bottom: "small" }}>
+                <Button type="submit" primary label="create" />
+              </Box>
+            </Form>
+          )}
+        </Formik>
       </>
     );
   }

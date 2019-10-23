@@ -1,7 +1,6 @@
 import React from "react";
 import { Form, FormField, Button, CheckBox, Box } from "grommet";
 import { FormNext } from "grommet-icons";
-import * as Yup from "yup";
 
 interface IUserLoginComponentState {
   isCheckBoxChecked: boolean;
@@ -11,11 +10,6 @@ interface IUserLoginComponentState {
 }
 
 interface IUserLoginComponentProps {}
-
-const UserLoginSchema = Yup.object().shape({
-  username: Yup.string().required("required"),
-  password: Yup.string().required("required")
-});
 
 export default class UserLoginComponent extends React.Component<
   IUserLoginComponentProps,
@@ -35,47 +29,25 @@ export default class UserLoginComponent extends React.Component<
   };
 
   onUsernameChange = async (e: any) => {
-    console.log(e.target.value);
-
-    if (e.target.value.length > 0) {
-      await this.setState({
-        hasUsername: true
-      });
-    } else {
-      await this.setState({
-        hasUsername: false
-      });
-    }
+    await this.setState({
+      hasUsername: e.target.value.length >= 8 ? true : false
+    });
 
     this.formCompletionStatus();
   };
 
   onPasswordChange = async (e: any) => {
-    console.log(e.target.value);
-
-    if (e.target.value.length > 0) {
-      await this.setState({
-        hasPassword: true
-      });
-    } else {
-      await this.setState({
-        hasPassword: false
-      });
-    }
+    await this.setState({
+      hasPassword: e.target.value.length >= 8 ? true : false
+    });
 
     this.formCompletionStatus();
   };
 
   formCompletionStatus = async () => {
-    if (this.state.hasPassword && this.state.hasUsername) {
-      await this.setState({
-        isFormComplete: true
-      });
-    } else {
-      await this.setState({
-        isFormComplete: false
-      });
-    }
+    await this.setState({
+      isFormComplete: this.state.hasPassword && this.state.hasUsername
+    });
   };
 
   onSkipLoginButtonClicked = () => {
@@ -90,15 +62,15 @@ export default class UserLoginComponent extends React.Component<
             onChange={this.onUsernameChange}
             required={true}
             placeholder="username"
-            name="username"
+            name="uname"
             label="username"
           />
           <FormField
             onChange={this.onPasswordChange}
             required={true}
             type="password"
-            placeholder="password123"
-            name="password"
+            placeholder="password"
+            name="pword"
             label="password"
           />
           <Box>
