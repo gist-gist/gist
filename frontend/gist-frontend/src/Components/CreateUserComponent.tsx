@@ -2,14 +2,7 @@ import React from "react";
 import { Form, FormField, Button, Box, Layer, Heading, Select } from "grommet";
 import { User, UserFemale, UserManager } from "grommet-icons";
 import * as Yup from "yup";
-import { Formik } from "formik";
-
-interface ICreateUserComponentProps {}
-
-interface ICreateUserComponentState {
-  showPictureModal: boolean;
-  imageName: string;
-}
+import { withFormik } from "formik";
 
 const CreateUserSchema = Yup.object().shape({
   fullName: Yup.string().required("full name is required"),
@@ -35,14 +28,12 @@ const CreateUserSchema = Yup.object().shape({
   profilePicture: Yup.array()
 });
 
-export default class CreateUserComponent extends React.Component<
-  ICreateUserComponentProps,
-  ICreateUserComponentState
-> {
+class CreateUserComponent extends React.Component {
   state = {
     showPictureModal: false,
     imageName: "User"
   };
+
   onSelectImageClick = () => {
     this.setState({
       showPictureModal: !this.state.showPictureModal
@@ -109,81 +100,93 @@ export default class CreateUserComponent extends React.Component<
   render() {
     const photoSelectorLayer = this.getPhotoSelectorLayer();
     let iconChoice: JSX.Element = this.getIcon("neutral-3", "large");
+    const {
+      values,
+      touched,
+      errors,
+      handleChange,
+      handleBlur,
+      handleSubmit
+    } = this.props;
     return (
       <>
-        <Formik
-          initialValues={{
-            fullName: "",
-            username: "",
-            password: "",
-            secondPassword: "",
-            email: "",
-            profilePicture: ""
-          }}
-          validationSchema={CreateUserSchema}
-          onSubmit={values => {
-            console.log(values);
-          }}
-        >
-          {({ errors, touched }) => (
-            <Form>
-              <FormField
-                placeholder="butla leavenworth"
-                name="fullName"
-                label="full name"
+        <Form onSubmit={handleSubmit}>
+          <FormField
+            placeholder="butla leavenworth"
+            name="fullName"
+            label="full name"
+            onChange={handleChange}
+            value={values.fullName}
+          />
+          <FormField
+            placeholder="username"
+            name="username"
+            label="username"
+            onChange={handleChange}
+            value={values.username}
+          />
+          <FormField
+            type="password"
+            placeholder="password"
+            name="password"
+            label="password"
+            onChange={handleChange}
+            value={values.password}
+          />
+          <FormField
+            type="password"
+            placeholder="password...again"
+            name="secondPassword"
+            label="enter password again"
+            onChange={handleChange}
+            value={values.secondPassword}
+          />
+          <FormField
+            placeholder="youremail@email.com"
+            name="email"
+            label="email"
+            onChange={handleChange}
+            value={values.email}
+          />
+          <FormField
+            name="profilePicture"
+            label="profile picture"
+            onChange={handleChange}
+            value={values.profilePicture}
+          >
+            <Box align="center" pad={{ bottom: "small" }} round="full">
+              <Box pad={{ bottom: "xxsmall" }}>{iconChoice}</Box>
+              <Button
+                onClick={this.onSelectImageClick}
+                label="select image (default selected)"
               />
-              {errors.fullName && touched.fullName ? (
-                <>{errors.fullName}</>
-              ) : null}
-              <FormField
-                placeholder="username"
-                name="username"
-                label="username"
-              />
-              {errors.username && touched.username ? (
-                <>{errors.username}</>
-              ) : null}
-              <FormField
-                type="password"
-                placeholder="password"
-                name="password"
-                label="password"
-              />
-              {errors.password && touched.password ? (
-                <>{errors.password}</>
-              ) : null}
-              <FormField
-                type="password"
-                placeholder="password...again"
-                name="secondPassword"
-                label="enter password again"
-              />
-              {errors.secondPassword && touched.secondPassword ? (
-                <>{errors.secondPassword}</>
-              ) : null}
-              <FormField
-                placeholder="youremail@email.com"
-                name="email"
-                label="email"
-              />
-              {errors.email && touched.email ? <>{errors.email}</> : null}
-              <FormField name="profilePicture" label="profile picture">
-                <Box align="center" pad={{ bottom: "small" }} round="full">
-                  <Box pad={{ bottom: "xxsmall" }}>{iconChoice}</Box>
-                  <Button
-                    onClick={this.onSelectImageClick}
-                    label="select image (default selected)"
-                  />
-                  {photoSelectorLayer}
-                </Box>
-              </FormField>
-              <Box pad={{ bottom: "small" }}>
-                <Button type="submit" primary label="create" />
-              </Box>
-            </Form>
-          )}
-        </Formik>
+              {photoSelectorLayer}
+            </Box>
+          </FormField>
+          <Box pad={{ bottom: "small" }}>
+            <Button type="submit" primary label="create" />
+          </Box>
+        </Form>
       </>
     );
   }
 }
+
+const EnhancedCreateUserComponent = withFormik({
+  mapPropsToValues: () => ({
+    fullName: "",
+    username: "",
+    password: "",
+    secondPassword: "",
+    email: "",
+    profilePicture: ""
+  }),
+  validationSchema: CreateUserSchema,
+  handleSubmit: (values, { setSubmitting }) => {
+    setTimeout(() => {
+      alert(JSON.stringify(values, null, 2));
+      setSubmitting(false);
+    }, 1000);
+  }
+})(CreateUserComponent);
+export default EnhancedCreateUserComponent;
