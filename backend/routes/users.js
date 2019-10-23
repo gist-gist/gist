@@ -29,9 +29,16 @@ router.route("/").post((req, res) => {
   const password_plaintext = req.body.password;
   const fullName = req.body.fullName;
   const email = req.body.email;
+  const profilePicture = req.body.profilePicture;
 
   bcrypt.hash(password_plaintext, BCRYPT_SALT_ROUND).then(password => {
-    const newUser = new User({ username, password, fullName, email });
+    const newUser = new User({
+      username,
+      password,
+      fullName,
+      email,
+      profilePicture
+    });
     return newUser
       .save()
       .then(newUser => res.json(newUser))
@@ -65,8 +72,6 @@ router.route("/:username").get(async (req, res) => {
 router.route("/login").post(async (req, res) => {
   const username = req.body.username;
   const password_plaintext = req.body.password;
-
-  const BCRYPT_SALT_ROUND = 12;
 
   let user = await User.findOne({ username: username });
   if (!user) {
