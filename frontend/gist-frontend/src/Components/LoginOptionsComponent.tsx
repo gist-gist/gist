@@ -36,7 +36,7 @@ export default class LoginOptionsComponent extends React.Component<
         }}
         round={true}
         width="large"
-        background="light-3"
+        background={{ color: "#FFFFFF", opacity: "medium" }}
         elevation="xlarge"
         align="center"
         justify="center"

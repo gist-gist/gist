@@ -20,3 +20,8 @@ export interface ICreateUserFormValues {
   email: string;
   profilePicture: string;
 }
+
+export interface IUserLoginFormValues {
+  username: string;
+  password: string;
+}

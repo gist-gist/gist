@@ -18,6 +18,7 @@ export class UsersHandler {
     return users;
   }
   async createUser(user: User): Promise<User> {
+    console.log("create user");
     let data = await APIHandler(`users/`, "POST", user);
     return new User(data);
   }

@@ -1,6 +1,19 @@
 import React from "react";
-import { Form, FormField, Button, CheckBox, Box } from "grommet";
+import {
+  Form,
+  FormField,
+  Button,
+  CheckBox,
+  Box,
+  Grommet,
+  TextInput
+} from "grommet";
 import { FormNext } from "grommet-icons";
+import { Formik, yupToFormErrors } from "formik";
+import { theme } from "../Helpers/theme";
+import { IUserLoginFormValues } from "../api/api-types";
+import * as Yup from "yup";
+import { UsersHandler } from "../api/users-handler";
 
 interface IUserLoginComponentState {
   isCheckBoxChecked: boolean;
@@ -19,7 +32,8 @@ export default class UserLoginComponent extends React.Component<
     isCheckBoxChecked: false,
     isFormComplete: false,
     hasUsername: false,
-    hasPassword: false
+    hasPassword: false,
+    submitted: false
   };
 
   checkBoxOnClick = () => {
@@ -54,51 +68,61 @@ export default class UserLoginComponent extends React.Component<
     console.log("skipped the login page");
   };
 
+  submitForm = () => {};
   render() {
+    const { submitted } = this.state;
     return (
       <>
-        <Form>
-          <FormField
-            onChange={this.onUsernameChange}
-            required={true}
-            placeholder="username"
-            name="uname"
-            label="username"
-          />
-          <FormField
-            onChange={this.onPasswordChange}
-            required={true}
-            type="password"
-            placeholder="password"
-            name="pword"
-            label="password"
-          />
-          <Box>
-            <Button
-              disabled={!this.state.isFormComplete}
-              type="submit"
-              primary
-              label="login"
-            />
-          </Box>
-          <Box style={{ padding: "10px" }}>
-            <CheckBox
-              disabled={!this.state.isFormComplete}
-              onChange={this.checkBoxOnClick}
-              checked={this.state.isCheckBoxChecked}
-              label="remember me?"
-            />
-          </Box>
-        </Form>
-        <Box round={true} elevation="medium">
-          <Button
-            icon={<FormNext />}
-            reverse={true}
-            gap="none"
-            label="skip login"
-            onClick={this.onSkipLoginButtonClicked}
-          />
-        </Box>
+        <Grommet theme={theme}>
+          <Formik
+            initialValues={{ username: "", password: "" }}
+            onSubmit={async (values, { setSubmitting }) => {
+              setTimeout(() => {
+                alert(JSON.stringify(values, null, 2));
+                setSubmitting(false);
+              }, 500);
+              console.log(
+                new UsersHandler().login(values.username, values.password)
+              );
+            }}
+            validationSchema={Yup.object().shape({
+              username: Yup.string().required("Required"),
+              password: Yup.string().required("Required")
+            })}
+          >
+            {props => {
+              const {
+                values,
+                errors,
+                isSubmitting,
+                handleChange,
+                handleSubmit
+              } = props;
+              return (
+                <form onSubmit={handleSubmit}>
+                  <FormField label="username" error={errors.username}>
+                    <TextInput
+                      name="username"
+                      placeholder="username"
+                      onChange={handleChange}
+                      value={values.username || ""}
+                    />
+                  </FormField>
+                  <FormField label="password" error={errors.password}>
+                    <TextInput
+                      name="password"
+                      placeholder="password"
+                      type="password"
+                      onChange={handleChange}
+                      value={values.password || ""}
+                    />
+                  </FormField>
+                  <Button type="submit" primary label="Create" />
+                </form>
+              );
+            }}
+          </Formik>
+        </Grommet>
       </>
     );
   }

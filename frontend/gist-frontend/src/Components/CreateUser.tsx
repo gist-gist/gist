@@ -21,8 +21,13 @@ export default class CreateUser extends React.Component<
     //make api call
   };
 
-  onSubmit = async (user: User) => {
-    new UsersHandler().createUser(user);
+  onSubmit = async (data: ICreateUserFormValues) => {
+    console.log("hello submit");
+    try {
+      const response = await this.props.handler!.createUser(new User(data));
+    } catch (e) {
+      console.log(e);
+    }
   };
 
   render() {

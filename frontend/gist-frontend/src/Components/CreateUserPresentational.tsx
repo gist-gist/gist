@@ -106,7 +106,12 @@ class CreateUserInternal extends React.Component<
     } = this.props;
     return (
       <>
-        <Form onSubmit={(e: any) => handleSubmit()} method="post">
+        <form
+          onSubmit={() => {
+            console.log("hi");
+            handleSubmit();
+          }}
+        >
           <FormField label="full name" error={errors.fullName}>
             <TextInput
               name="fullName"
@@ -166,7 +171,7 @@ class CreateUserInternal extends React.Component<
           <Box pad={{ bottom: "small" }}>
             <Button type="submit" primary label="create" />
           </Box>
-        </Form>
+        </form>
       </>
     );
   }
@@ -210,13 +215,12 @@ export const CreateUserPresentational = withFormik<
   validationSchema: () => CreateUserValidators,
   validateOnChange: true,
 
-  handleSubmit: async (
+  handleSubmit: (
     values: ICreateUserFormValues,
     { props, setErrors, setSubmitting }
   ) => {
-    console.log("submit");
     setSubmitting(true);
-    await props.onSubmit(values, setErrors);
+    props.onSubmit(values, setErrors);
 
     setSubmitting(false);
   }
