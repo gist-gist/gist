@@ -59,7 +59,8 @@ export default class DashboardComponent extends Component {
             height: "100vh",
             backgroundColor: "#2AF598",
             opacity: 0.9,
-            width: 212
+            width: 212,
+            borderRadius: "0px 30px 30px 0px"
           }}
         ></div>
 
@@ -80,7 +81,8 @@ export default class DashboardComponent extends Component {
           style={{
             height: "100vh",
             backgroundColor: "#2AF598",
-            width: 78
+            width: 78,
+            borderRadius: "0px 15px 15px 0px"
           }}
         >
           <Button key={"user"} href="#" hoverIndicator>
