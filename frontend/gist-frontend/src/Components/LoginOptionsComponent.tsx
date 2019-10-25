@@ -1,7 +1,7 @@
 import React from "react";
 import UserLoginComponent from "./UserLoginComponent";
 import { Box, Tab, Tabs, Heading } from "grommet";
-import CreateUser from "./CreateUser";
+import CreateUserComponent from "./CreateUserComponent";
 
 interface ILoginOptionsComponentProps {}
 
@@ -51,7 +51,7 @@ export default class LoginOptionsComponent extends React.Component<
           </Tab>
           <Tab title="sign up">
             <Box>
-              <CreateUser />
+              <CreateUserComponent />
             </Box>
           </Tab>
         </Tabs>

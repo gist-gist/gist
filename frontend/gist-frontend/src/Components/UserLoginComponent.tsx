@@ -1,17 +1,7 @@
 import React from "react";
-import {
-  Form,
-  FormField,
-  Button,
-  CheckBox,
-  Box,
-  Grommet,
-  TextInput
-} from "grommet";
-import { FormNext } from "grommet-icons";
-import { Formik, yupToFormErrors } from "formik";
+import { FormField, Button, Grommet, TextInput } from "grommet";
+import { Formik } from "formik";
 import { theme } from "../Helpers/theme";
-import { IUserLoginFormValues } from "../api/api-types";
 import * as Yup from "yup";
 import { UsersHandler } from "../api/users-handler";
 
@@ -28,49 +18,7 @@ export default class UserLoginComponent extends React.Component<
   IUserLoginComponentProps,
   IUserLoginComponentState
 > {
-  state = {
-    isCheckBoxChecked: false,
-    isFormComplete: false,
-    hasUsername: false,
-    hasPassword: false,
-    submitted: false
-  };
-
-  checkBoxOnClick = () => {
-    this.setState({
-      isCheckBoxChecked: !this.state.isCheckBoxChecked
-    });
-  };
-
-  onUsernameChange = async (e: any) => {
-    await this.setState({
-      hasUsername: e.target.value.length >= 8 ? true : false
-    });
-
-    this.formCompletionStatus();
-  };
-
-  onPasswordChange = async (e: any) => {
-    await this.setState({
-      hasPassword: e.target.value.length >= 8 ? true : false
-    });
-
-    this.formCompletionStatus();
-  };
-
-  formCompletionStatus = async () => {
-    await this.setState({
-      isFormComplete: this.state.hasPassword && this.state.hasUsername
-    });
-  };
-
-  onSkipLoginButtonClicked = () => {
-    console.log("skipped the login page");
-  };
-
-  submitForm = () => {};
   render() {
-    const { submitted } = this.state;
     return (
       <>
         <Grommet theme={theme}>
@@ -82,7 +30,7 @@ export default class UserLoginComponent extends React.Component<
                 setSubmitting(false);
               }, 500);
               console.log(
-                new UsersHandler().login(values.username, values.password)
+                await new UsersHandler().login(values.username, values.password)
               );
             }}
             validationSchema={Yup.object().shape({
@@ -91,13 +39,7 @@ export default class UserLoginComponent extends React.Component<
             })}
           >
             {props => {
-              const {
-                values,
-                errors,
-                isSubmitting,
-                handleChange,
-                handleSubmit
-              } = props;
+              const { values, errors, handleChange, handleSubmit } = props;
               return (
                 <form onSubmit={handleSubmit}>
                   <FormField label="username" error={errors.username}>
@@ -117,7 +59,7 @@ export default class UserLoginComponent extends React.Component<
                       value={values.password || ""}
                     />
                   </FormField>
-                  <Button type="submit" primary label="Create" />
+                  <Button type="submit" primary label="login" />
                 </form>
               );
             }}
