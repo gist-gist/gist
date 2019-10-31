@@ -1,6 +1,9 @@
 import React from "react";
-import { Form, FormField, Button, CheckBox, Box } from "grommet";
-import { FormNext } from "grommet-icons";
+import { FormField, Button, Grommet, TextInput } from "grommet";
+import { Formik } from "formik";
+import { theme } from "../Helpers/theme";
+import * as Yup from "yup";
+import { UsersHandler } from "../api/users-handler";
 
 interface IUserLoginComponentState {
   isCheckBoxChecked: boolean;
@@ -15,112 +18,53 @@ export default class UserLoginComponent extends React.Component<
   IUserLoginComponentProps,
   IUserLoginComponentState
 > {
-  state = {
-    isCheckBoxChecked: false,
-    isFormComplete: false,
-    hasUsername: false,
-    hasPassword: false
-  };
-
-  checkBoxOnClick = () => {
-    this.setState({
-      isCheckBoxChecked: !this.state.isCheckBoxChecked
-    });
-  };
-
-  onUsernameChange = async (e: any) => {
-    console.log(e.target.value);
-
-    if (e.target.value.length > 0) {
-      await this.setState({
-        hasUsername: true
-      });
-    } else {
-      await this.setState({
-        hasUsername: false
-      });
-    }
-
-    this.formCompletionStatus();
-  };
-
-  onPasswordChange = async (e: any) => {
-    console.log(e.target.value);
-
-    if (e.target.value.length > 0) {
-      await this.setState({
-        hasPassword: true
-      });
-    } else {
-      await this.setState({
-        hasPassword: false
-      });
-    }
-
-    this.formCompletionStatus();
-  };
-
-  formCompletionStatus = async () => {
-    if (this.state.hasPassword && this.state.hasUsername) {
-      await this.setState({
-        isFormComplete: true
-      });
-    } else {
-      await this.setState({
-        isFormComplete: false
-      });
-    }
-  };
-
-  onSkipLoginButtonClicked = () => {
-    console.log("skipped the login page");
-  };
-
   render() {
     return (
       <>
-        <Form>
-          <FormField
-            onChange={this.onUsernameChange}
-            required={true}
-            placeholder="username"
-            name="username"
-            label="username"
-          />
-          <FormField
-            onChange={this.onPasswordChange}
-            required={true}
-            type="password"
-            placeholder="password123"
-            name="password"
-            label="password"
-          />
-          <Box>
-            <Button
-              disabled={!this.state.isFormComplete}
-              type="submit"
-              primary
-              label="login"
-            />
-          </Box>
-          <Box style={{ padding: "10px" }}>
-            <CheckBox
-              disabled={!this.state.isFormComplete}
-              onChange={this.checkBoxOnClick}
-              checked={this.state.isCheckBoxChecked}
-              label="remember me?"
-            />
-          </Box>
-        </Form>
-        <Box round={true} elevation="medium">
-          <Button
-            icon={<FormNext />}
-            reverse={true}
-            gap="none"
-            label="skip login"
-            onClick={this.onSkipLoginButtonClicked}
-          />
-        </Box>
+        <Grommet theme={theme}>
+          <Formik
+            initialValues={{ username: "", password: "" }}
+            onSubmit={async (values, { setSubmitting }) => {
+              setTimeout(() => {
+                alert(JSON.stringify(values, null, 2));
+                setSubmitting(false);
+              }, 500);
+              console.log(
+                await new UsersHandler().login(values.username, values.password)
+              );
+            }}
+            validationSchema={Yup.object().shape({
+              username: Yup.string().required("Required"),
+              password: Yup.string().required("Required")
+            })}
+          >
+            {props => {
+              const { values, errors, handleChange, handleSubmit } = props;
+              return (
+                <form onSubmit={handleSubmit}>
+                  <FormField label="username" error={errors.username}>
+                    <TextInput
+                      name="username"
+                      placeholder="username"
+                      onChange={handleChange}
+                      value={values.username || ""}
+                    />
+                  </FormField>
+                  <FormField label="password" error={errors.password}>
+                    <TextInput
+                      name="password"
+                      placeholder="password"
+                      type="password"
+                      onChange={handleChange}
+                      value={values.password || ""}
+                    />
+                  </FormField>
+                  <Button type="submit" primary label="login" />
+                </form>
+              );
+            }}
+          </Formik>
+        </Grommet>
       </>
     );
   }

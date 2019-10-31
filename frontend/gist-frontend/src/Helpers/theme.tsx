@@ -1,7 +1,8 @@
 export const theme = {
   global: {
     colors: {
-      brand: "#2AF598"
+      brand:
+        "linear-gradient(160deg,#a8f4d3,#7de3e1,#6cceea,#7cb5e6,#94a7e1,#aba5e5,#c5a1e4,#de9ddd)" //"#2AF598"
     },
     font: {
       family: "Roboto",
@@ -13,14 +14,14 @@ export const theme = {
     border: {
       active: {
         color: {
-          dark: "brand",
-          light: "brand"
+          dark: "#2AF598",
+          light: "#2AF598"
         }
       },
       hover: {
         color: {
-          dark: "brand",
-          light: "brand"
+          dark: "#2AF598",
+          light: "#2AF598"
         }
       },
       color: {
@@ -30,15 +31,15 @@ export const theme = {
     },
     color: "neutral-3",
     hover: {
-      color: "brand"
+      color: "#2AF598"
     },
     active: {
-      color: "brand"
+      color: "#2AF598"
     }
   },
   checkBox: {
     border: {
-      color: "brand"
+      color: "#2AF598"
     },
     hover: {
       border: {

@@ -1,8 +1,7 @@
 import React from "react";
 import UserLoginComponent from "./UserLoginComponent";
-import CreateUserComponent from "./CreateUserComponent";
-
 import { Box, Tab, Tabs, Heading } from "grommet";
+import CreateUserComponent from "./CreateUserComponent";
 
 interface ILoginOptionsComponentProps {}
 
@@ -37,7 +36,7 @@ export default class LoginOptionsComponent extends React.Component<
         }}
         round={true}
         width="large"
-        background="linear-gradient(160deg,#a8f4d3,#7de3e1,#6cceea,#7cb5e6,#94a7e1,#aba5e5,#c5a1e4,#de9ddd)"
+        background={{ color: "#FFFFFF", opacity: "medium" }}
         elevation="xlarge"
         align="center"
         justify="center"
