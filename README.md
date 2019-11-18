@@ -1,2 +1,2 @@
 # gist
-it was such a fucking mess ... of gist (we can change this later if you want)
+readme file out to lunch, be back in 10...
